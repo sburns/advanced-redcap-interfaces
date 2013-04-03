@@ -144,13 +144,37 @@ As opposed to humans who:
 
 # API
 
+
+HTTP `POST` -> `https://redcap.vanderbilt.edu/api/`
+
+`https://redcap.vanderbilt.edu/api/help/` describes payload parameters
+
+## Note:
+
+-   You need API access to the Project and a generated token
+-   Available formats: `csv`, `xml`, `json`
+
+## Presenter Notes
+
 HTTP-based API for communicating with Projects
 
-`https://redcap.vanderbilt.edu/api/`
+All API calls against REDCap are basically the same thing.
 
-Any language that implements an HTTP library can communicate with REDCap.
+The API token binds your user rights to a specific project. DO NOT SHARE THIS TOKEN.
 
-`https://redcap.vanderbilt.edu/api/help`
+JSON (Javascript Object Notation) is the most interesting format from my perspective because it can be decoded to real objects.
+
+---
+
+# API
+
+## Any language that has an HTTP library can communicate with REDCap.
+
+`PyCap` is a python package I wrote and maintain to facilitate REDCap API usage within python applications/scripts.
+
+`$ pip install PyCap`
+
+`https://sburns.github.com/PyCap` for documentation.
 
 
 ## Presenter Notes
@@ -171,36 +195,31 @@ I'm going to talk about things implemented in python, but it's important to know
 
 ---
 
-# API: General
+# API: Exporting the Data-Dictionary
 
-Make an HTTP `POST` request with a correctly-formatted payload.
 
+    !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
         -d token=XXX \
         -d content=metadata \
         -d format=json
 
 <br />
-`https://redcap.vanderbilt.edu/api/help/` is your friend.
 
--   You need API access to the project
--   You need an API token (`-d token=...`)
--   Available formats: `csv`, `xml`, `json`
+    !python
+    from redcap import Project
+    project = Project('https://redcap.vanderbilt.edu/api/', TOKEN)
+    md = project.export_metadata()
+
 
 ## Presenter Notes
 
-All API calls against REDCap are basically the same thing.
-
-The API token binds your user rights to a specific project. DO NOT SHARE THIS TOKEN.
-
-JSON (Javascript Object Notation) is the most interesting format from my perspective because it can be decoded to real objects.
-
+While I'm talking about the API, I'm going to show curl commands towards the top and the corresponding python calls below.
 
 ---
 
 # API: Exporting Data-Dictionary
 
-## For each column:
 
 -   Name
 -   Label (Human Readable)
@@ -209,16 +228,19 @@ JSON (Javascript Object Notation) is the most interesting format from my perspec
 -   Branching Logic (If any)
 -   And others
 
+Response is equivalent to downloading the data dictionary through the web application.
+
 ## Presenter Notes
 
-A table about your table. Useful to determine before imports whether fields exist/etc.
+A table about your table. Useful to determine whether fields exist before imports/etc.
 
 ---
 
-# API: Exporting Data
+# API: Exporting Records
 
-## Download the entire thing
+Download the entire thing
 
+    !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
         -d token=XXX \
         -d content=record \
@@ -226,8 +248,19 @@ A table about your table. Useful to determine before imports whether fields exis
 
 <br />
 
-## Or request slices
+    !python
+    data = project.export_records()
+    # data is a list of dictionary objects with one dictionary per record
+    csv = project.export_records(format='csv') # or 'xml'
+    df = project.export_records(format='df')  # Pandas DataFrame
 
+---
+
+# API: Exporting Data
+
+Or request slices
+
+    !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
         -d token=XXX \
         -d content=record \
@@ -235,23 +268,37 @@ A table about your table. Useful to determine before imports whether fields exis
         -d records=1,2,3 \
         -d fields=age,sex,gender
 
+<br />
+
+    !python
+    slices = project.export_records(records=['1', '2', '3'],
+                                    fields=['age', 'sex', 'gender'])
+
+
 ## Presenter Notes
 
-If you're working with a big database, you can speed up the API call by requesting only rows and columns that you need.
+If you're working with a big database, you can speed up the API call by requesting only rows and columns that you'll need.
 
 ---
 
 # API: Importing Data
 
-<br />
+Update existing records or add new ones
 
-Update records
-
+    !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
         -d token=XXX \
         -d content=record \
         -d format=csv \
         -d data="participant_id,new_data\n1,hooray"
+
+<br />
+
+    !python
+    from my_module import modify_records
+    data = project.export_records()
+    modified = modify_records(data)
+    project.import_records(modified)
 
 ## Presenter Notes
 
@@ -259,10 +306,16 @@ It's most likely best to download data, tweak it and import. By default does not
 
 ---
 
-# API: File Maniuplations
+# API: File Exporting
 
-## Exporting
+Works on a per-record basis
 
-## Importing
+TODO
 
-## Deletion
+---
+
+# API: File Importing
+
+---
+
+# API: File Deletion
