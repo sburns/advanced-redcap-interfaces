@@ -67,7 +67,7 @@ External software can push and pull data over the internet
 
 Saving any data causes HTTP POST to URL (of your choosing)
 
-**These features are the building blocks of extremely advanced data managment techniques and they're ready to be used right now.**
+**These features are the building blocks of extremely advanced data managment techniques and they're ready to use right now.**
 
 ## Presenter Notes
 
@@ -169,6 +169,7 @@ JSON (Javascript Object Notation) is the most interesting format from my perspec
 
 # API
 
+<br />
 ## Any language that has an HTTP library can communicate with REDCap.
 
 **PyCap** is a python package I wrote and maintain to facilitate REDCap API usage within python applications/scripts.
@@ -189,6 +190,8 @@ While I'm talking about the API, I'm going to show curl commands towards the top
 ---
 
 # API
+
+<br />
 
 ## Most Important Methods
 
@@ -434,6 +437,7 @@ By default does not overwrite non-imported fields with empty data.
 
 What if you have hundreds of records? Some poor soul has to click a button that many times.
 
+---
 
 # API: Advanced Field Calculations
 
@@ -473,11 +477,14 @@ The API presents a stationary target that other systems can be written against t
 
 # API: Other processes of research
 
-**Come analysis time, the API can help in these ways and more:**
-
+<br />
 ## Reproducible group/cohort determination
 
+<br />
+
 ## Automated database cleanup
+
+<br />
 
 ## TODO
 
@@ -575,3 +582,69 @@ I've only scratched the surface here. The possibilities of workflows enabled by 
 <br />
 
 <img src="img/animated-fireworks-wallpaper.jpeg" width="640" height="400">
+
+---
+
+# Data Entry Triggers
+
+<br />
+
+## What this means:
+
+*   Deploy arbitrary data workflows on a webserver
+*   Workflows execute in real time as data is saved.
+*   Otherwise normal users can execute very advanced processing.
+*   "It just happens"
+
+---
+
+# Data Entry Triggers: Incoming Payload
+
+<br />
+
+**Fields in the incoming payload:**
+
+*   `project_id`: Project Identifier
+*   `instrument`: What form was saved?
+*   `record`: Which record?
+*   `redcap_event_name`: For which event (longitudinal projects only)
+*   `redcap_data_access_group`: What "kind" of user saved it?
+*   `[instrument]_complete`: What is the status of the form?
+
+---
+
+# Data Entry Triggers: Pitalls
+
+<br />
+
+## Not every research group...:
+
+*   ...can setup/maintain/secure a webserver.
+*   ...has the resources to write the web application.
+
+(Middleware is required to route incoming requests to the correct workflow)
+
+## But every lab should have access to this functionality
+
+---
+
+# Data Entry Triggers: Switchboard
+
+`switchboard` (`github.com/sburns/switchboard`) is a tiny web application I wrote to:
+
+*   Parse incoming `POST` requests from REDCap (or whomever).
+*   Execute only the functions whose workflows match the request.
+
+It's in "production" for our lab but **rough around the edges**
+
+---
+
+# Data Entry Triggers
+
+<br />
+
+Ideally, somewhere at Vanderbilt there would be a central "switchboard" webserver:
+
+*   Just one webserver to maintain.
+*   Shared infrastructure is good.
+*   Increase buy-in among disparate groups.
