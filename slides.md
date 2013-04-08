@@ -143,17 +143,49 @@ As opposed to humans who:
 
 ---
 
+# Generalized Architecture
+
+<br />
+<img src="img/arch-total.png" width="720">
+
+---
+
+# Generalized Architecture
+
+<br />
+<img src="img/arch-redcap.png" width="720">
+
+---
+
+# Generalized Architecture
+
+<br />
+<img src="img/arch-lab.png" width="720">
+
+---
+
+# API
+
+<br />
+<img src="img/api.png" width="720">
+
+
+---
+
 # API
 
 
-HTTP `POST` -> `https://redcap.vanderbilt.edu/api/`
+<br />
 
-`https://redcap.vanderbilt.edu/api/help/` describes payload parameters
+### HTTP POST -> `https://redcap.vanderbilt.edu/api/`
 
-## Note:
+<br />
+<br />
+<br />
+<br />
+<br />
 
--   You need API access to the Project and a generated token
--   In-/output formats: `csv`, `xml`, `json`
+(`https://redcap.vanderbilt.edu/api/help/`)
 
 ## Presenter Notes
 
@@ -161,9 +193,14 @@ HTTP-based API for communicating with Projects
 
 All API calls against REDCap are basically the same thing.
 
+You need API access to the Project and a generated token
+
 The API token binds your user rights to a specific project. DO NOT SHARE THIS TOKEN.
 
+In-/output formats: `csv`, `xml`, `json`
+
 JSON (Javascript Object Notation) is the most interesting format from my perspective because it can be decoded to real objects.
+
 
 ---
 
@@ -176,7 +213,7 @@ JSON (Javascript Object Notation) is the most interesting format from my perspec
 
 `$ pip install PyCap`
 
-`https://sburns.github.com/PyCap` for documentation.
+(`https://sburns.github.com/PyCap`)
 
 
 ## Presenter Notes
@@ -389,7 +426,7 @@ By default does not overwrite non-imported fields with empty data.
 
 ---
 
-# API: Example Usage
+# API: Possible Uses
 
 <br />
 ## Advanced & Automated Field Calculations
@@ -408,7 +445,15 @@ By default does not overwrite non-imported fields with empty data.
 
 # API: Advanced Field Calculations
 
-## Worst Implementation
+<br />
+
+## Problem: Update Many Records By Applying Formula
+
+**Worst Implmentation**:
+
+Download/Implement/Upload
+
+## Presenter Notes
 
 *   Download the data as spreadsheet/SPSS/etc.
 *   Implement the field calculation and execute.
@@ -425,7 +470,15 @@ By default does not overwrite non-imported fields with empty data.
 
 # API: Advanced Field Calculations
 
-## Better Implementation
+<br />
+
+## Problem: Update Many Records By Applying Formula
+
+**Better Implmentation**:
+
+REDCap Calculated Fields
+
+## Presenter Notes
 
 **While REDCap does provide a calculated field feature, their implementation has issues**
 
@@ -433,7 +486,6 @@ By default does not overwrite non-imported fields with empty data.
 *   No access to third-party code (statistics/conversion tables/etc)
 *   Must re-implement across Projects.
 
-## Presenter Notes
 
 What if you have hundreds of records? Some poor soul has to click a button that many times.
 
@@ -441,15 +493,22 @@ What if you have hundreds of records? Some poor soul has to click a button that 
 
 # API: Advanced Field Calculations
 
+<br />
 
-**If we write our field calculations against the API**
+## Problem: Update Many Records By Applying Formula
+
+
+**Best Implementation**
+
+Use the API
+
+## Presenter Notes
+
 
 *   Write the (testable!) implementation once
 *   Easily use against many projects
 *   Fast, Error-Free IO
 *   Upfront cost amortized across all automated calculations
-
-## Presenter Notes
 
 Software testing in academia is for another talk, but do you really want to publish using untested methodologies?
 
@@ -459,36 +518,28 @@ While the calculation itself is probably no faster than when a human does it, we
 
 ---
 
-# API: As an Interface to Other Systems
+# API: External Research Systems
 
-A major thrust of our work is neuroimaging in children.
-
-We use REDCap as an interface for our image processing backend that runs at ACCRE.
-
-Imaging Data is record-aligned with behavioral data we store in REDCap.
-
-## Presenter Notes
-
-This is difficult to explain/talk about generally, but REDCap did a lot of hard work in making a nice UI for humans to input data.
-
-The API presents a stationary target that other systems can be written against to grab information and use it to perform "business logic".
-
----
-
-# API: Other processes of research
+<br />
+## External Processing/Databases
 
 <br />
 ## Reproducible group/cohort determination
 
 <br />
-
 ## Automated database cleanup
 
-<br />
-
-## TODO
 
 ## Presenter Notes
+
+*   A major thrust of our work is neuroimaging in children.
+*   We use REDCap as an interface for our image processing backend that runs at ACCRE.
+*   Imaging Data is record-aligned with behavioral data we store in REDCap.
+
+
+This is difficult to explain/talk about generally, but REDCap did a lot of hard work in making a nice UI for humans to input data.
+
+The API presents a stationary target that other systems can be written against to grab information and use it to perform "business logic".
 
 Reduces Friction between researchers and their data.
 
@@ -548,7 +599,7 @@ Using the data export and file upload methods, we can create these reports autom
 <br />
 <br />
 
-**What the API can do for your research is up to you**
+## What the API can do for your research is up to you
 
 ## Presenter Notes
 
@@ -556,14 +607,22 @@ I've only scratched the surface here. The possibilities of workflows enabled by 
 
 ---
 
-# API: Pitfalls
+# API: Downfall
 
-**Accessing the API is solely driven by external requests**
+<br />
 
-**You could poll the Project for new data, but that's inefficient and computationally wasteful**
+## Accessing the API is driven by external requests
+
+Poll? (yuck)
 
 **Can we have a better idea about when to run analyses?**
 
+---
+
+# Data Entry Triggers
+
+<br />
+<img src="img/det.png" width="720">
 ---
 
 # Data Entry Triggers
@@ -589,7 +648,9 @@ I've only scratched the surface here. The possibilities of workflows enabled by 
 
 <br />
 
-## What this means:
+<img src="img/det-fireworks.png" width="720">
+
+## Presenter Notes
 
 *   Deploy arbitrary data workflows on a webserver
 *   Workflows execute in real time as data is saved.
@@ -630,13 +691,20 @@ I've only scratched the surface here. The possibilities of workflows enabled by 
 
 # Data Entry Triggers: Switchboard
 
-`switchboard` (`github.com/sburns/switchboard`) is a tiny web application I wrote to:
+`switchboard`:
 
 *   Parse incoming `POST` requests from REDCap (or whomever).
 *   Execute only the functions whose workflows match the request.
 
-It's in "production" for our lab but **rough around the edges**
+**Production** for our lab but **rough around the edges**
 
+
+<br />
+<br />
+
+(`github.com/sburns/switchboard`)
+<br />
+want to help?
 ---
 
 # Data Entry Triggers
