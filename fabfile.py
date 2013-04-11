@@ -29,3 +29,6 @@ def rebuild():
     gen()
     deploy()
     open()
+
+def pdf():
+    local('prince index.html index.pdf')

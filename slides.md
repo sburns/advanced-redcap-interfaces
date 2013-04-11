@@ -6,74 +6,43 @@
 
 This talk can be found at:
 
-- Source: `http://github.com/sburns/advanced-redcap-interfaces`)
-- Current Version: `http://bit.ly/advanced-redcap`
+`http://github.com/sburns/advanced-redcap-interfaces`
+`http://bit.ly/advanced-redcap`
+
+Notes & Code Samples in the handouts
+
 
 ## Presenter Notes
+
+I'm an open book, this talk can be found on my github.
+
+A rendered version can be found at the bit.ly URL.
+
+Ratio of coders to non-coders?
+
+The handouts have my talking points. Where applicable, they also contain code samples. I hope you find this useful.
 
 ---
 
-# REDCap is
+# Goals
 
 <br />
 
-## A data storage service
+## REDCap provides advanced features but doesn't talk about them.
 
 <br />
 
-## Secure for the storage of PHI
+## These features make possible advanced data management workflows.
 
 <br />
 
-## An online spreadsheet
+## I will show you the way.
 
 ## Presenter Notes
 
----
+I have no affiliation with REDCap other than I submit a lot of bug reports, though less recently which is a good thing.
 
-# REDCap is not
-
-<br />
-
-## ...a real database:
-
-- Not relational, can only track one "entity" per project
-- Each Project is only a single table
-
-## ...a spreadsheet because
-
-- Client (web-app) & Server (PHP/MySQL) architecture
-- Only requires a browser
-- Advanced user access controls
-- Advanced web features (why we're here today)
-
-## Presenter Notes
-
-I actually believe the REDCap team made a great decision to not incorporate relational semantics to REDCap. They would have lost a lot of potential users.
-
-IMO, REDCap should be judged not as a less capable database but as a super spreadsheet that insulates users from many of the pitfalls of file-based databases.
-
----
-
-# Advanced REDCap Features
-
-<br />
-
-## Application Programming Interface
-
-External software can push and pull data over the internet
-
-## Data Entry Triggers
-
-Saving any data causes HTTP POST to URL (of your choosing)
-
-**These features are the building blocks of extremely advanced data managment techniques and they're ready to use right now.**
-
-## Presenter Notes
-
-**These two features make REDCap the foundation for advanced data management workflows**
-
-Investing in these workflows will improve your work. The techincal details of how these two features work are less important than the workflows they enable, which I'll talk about towards the end.
+If your head isn't swimming with ideas about how to improve your research, I haven't done my job.
 
 ---
 
@@ -81,7 +50,9 @@ Investing in these workflows will improve your work. The techincal details of ho
 
 <br />
 
-**Ideally, machines peform all trivial data analysis because they:**
+## In an ideal world
+
+Machines peform all **definable** data analyses because they:
 
 *   Perform reproducible work.
 *   Are extremely cheap.
@@ -94,6 +65,94 @@ As opposed to humans who:
 *   Cannot be relied upon to reproduce their own work.
 *   Are extremely expensive.
 *   Some RAs might even be considered pseudorandom processes.
+
+---
+
+# REDCap is...
+
+<br />
+
+## ...a data storage service
+
+<br />
+
+## ...secure for the storage of PHI
+
+<br />
+
+## ...an online spreadsheet
+
+## Presenter Notes
+
+Just to get everyone on the same page
+
+---
+
+# REDCap is less than...
+
+<br />
+
+## ...a "real" database:
+
+- Not relational, can only track one "entity" per project
+- Each Project is only a single table
+
+<img src="img/db-comp.png" width="480">
+
+## Presenter Notes
+
+REDCap does not support traditional database features as found RDBMS like Oracle, MySQL, etc.
+
+Namely, it is not relational. A REDCap project can only track single "entities".
+
+Other databases let you add fancy relationships (one-to-one, one-to-many) to your models.
+
+This decision reduces a lot more complexity and I applaud them for it.
+
+---
+
+# REDCap is more than...
+
+<br />
+
+## ...a spreadsheet because
+
+- Client & Server architecture
+- Browser-based.
+- User access controls
+- Advanced web features (why we're here today)
+
+## Presenter Notes
+
+Web application is a front-end to a large server backend.
+
+No installation required on users end.
+
+IMO, REDCap should be judged not as a less capable database but as a super spreadsheet that insulates users from many of the pitfalls of file-based tabular databases.
+
+We're here today to talk about these advanced web features
+
+---
+
+# Advanced REDCap Features
+
+<br />
+
+## Application Programming Interface
+
+External software can push and pull data.
+
+## Data Entry Triggers
+
+Internet notifications for anytime data is saved.
+
+**These features are the building blocks of extremely advanced data managment techniques and they're ready to use right now.**
+
+## Presenter Notes
+
+**These two features make REDCap the foundation for advanced data management workflows**
+
+Investing in these workflows will improve your work. The techincal details of how these two features work are less important than the workflows they enable, which I'll talk about towards the end.
 
 ---
 
@@ -143,21 +202,21 @@ As opposed to humans who:
 
 ---
 
-# Generalized Architecture
+# General Architecture
 
 <br />
 <img src="img/arch-total.png" width="720">
 
 ---
 
-# Generalized Architecture
+# General Architecture (REDCap)
 
 <br />
 <img src="img/arch-redcap.png" width="720">
 
 ---
 
-# Generalized Architecture
+# General Architecture (You)
 
 <br />
 <img src="img/arch-lab.png" width="720">
@@ -169,60 +228,34 @@ As opposed to humans who:
 <br />
 <img src="img/api.png" width="720">
 
-
 ---
 
 # API
 
+## HTTP POST to API URL
 
-<br />
+`https://redcap.vanderbilt.edu/api/`
 
-### HTTP POST -> `https://redcap.vanderbilt.edu/api/`
-
-<br />
-<br />
-<br />
-<br />
-<br />
-
-(`https://redcap.vanderbilt.edu/api/help/`)
-
-## Presenter Notes
-
-HTTP-based API for communicating with Projects
-
-All API calls against REDCap are basically the same thing.
-
-You need API access to the Project and a generated token
-
-The API token binds your user rights to a specific project. DO NOT SHARE THIS TOKEN.
-
-In-/output formats: `csv`, `xml`, `json`
-
-JSON (Javascript Object Notation) is the most interesting format from my perspective because it can be decoded to real objects.
-
-
----
-
-# API
-
-<br />
 ## Any language that has an HTTP library can communicate with REDCap.
 
-**PyCap** is a python package I wrote and maintain to facilitate REDCap API usage within python applications/scripts.
-
-`$ pip install PyCap`
+**PyCap** facilitates using the REDCap API within python applications.
 
 (`https://sburns.github.com/PyCap`)
 
 
 ## Presenter Notes
 
+
+HTTP-based API for communicating with Projects
+
 All languages worth using have an http library.
 
-I'm going to talk about things implemented in python, but it's important to know that nothing about the REDCap API requires you to use python.
+In-/output formats: `csv`, `xml`, `json`
 
-While I'm talking about the API, I'm going to show curl commands towards the top and the corresponding python calls below.
+You'll find code snippets on the handouts
+
+*   `$ pip install PyCap`
+*   `https://redcap.vanderbilt.edu/api/help/`
 
 ---
 
@@ -232,33 +265,30 @@ While I'm talking about the API, I'm going to show curl commands towards the top
 
 ## Most Important Methods
 
-*   Export Data-Dictionary
-*   Export & Import Records
+*   Export Data-Dictionary (rules for your database/schema/etc)
+*   Export & Import Records (Download/importing spreadsheets)
 *   Export/Import/Delete Files
 
 ---
 
 # API: Exporting Data-Dictionary
 
+Completely describes your database design
 
--   Name
--   Label (Human Readable)
+## For each column:
+
+-   Field Name
+-   Field Label (Human Readable)
 -   Type (Dropbown, Text, Textbox, etc)
 -   Choices
--   Branching Logic (If any)
+-   Branching Logic (if any)
 -   And others
 
-Response is equivalent to downloading the data dictionary through the web application.
+Equivalent to downloading the data dictionary through the web application.
 
 ## Presenter Notes
 
 A table about your table. Useful to determine whether fields exist before imports/etc.
-
-
----
-
-# API: Exporting the Data-Dictionary
-
 
     !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
@@ -273,40 +303,31 @@ A table about your table. Useful to determine whether fields exist before import
     project = Project('https://redcap.vanderbilt.edu/api/', TOKEN)
     md = project.export_metadata()
 
-
-## Presenter Notes
-
 ---
 
 # API: Exporting Records
 
-**Download the entire database**
+<br />
+
+## Download the entire database
+
+<br />
+
+## Can also request certain columms or records
+
+<br />
+
+## Honors access rules
+
+## Presenter Notes
+
+Grab all of the data or just some
 
     !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
         -d token=XXX \
         -d content=record \
         -d format=csv
-
-<br />
-
-    !python
-    data = project.export_records()
-    # data is a list of dictionary objects with one dictionary per record
-    csv = project.export_records(format='csv') # or 'xml'
-    df = project.export_records(format='df')  # Pandas DataFrame
-
-## Presenter Notes
-
-Getting a DataFrame is really helpful because pandas automatically provides type coercion in the DF construction (a text field column that stores numbers -> floats)
-
----
-
-# API: Exporting Data
-
-**Or request slices**
-
-    !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
         -d token=XXX \
         -d content=record \
@@ -317,19 +338,31 @@ Getting a DataFrame is really helpful because pandas automatically provides type
 <br />
 
     !python
+    data = project.export_records()
+    # data is a list of dictionary objects with one dictionary per record
+    csv = project.export_records(format='csv') # or 'xml'
+    df = project.export_records(format='df')  # Pandas DataFrame
     sliced = project.export_records(records=['1', '2', '3'],
                                     fields=['age', 'sex', 'gender'])
 
-
-## Presenter Notes
-
-If you're working with a big database, you can speed up the API call by requesting only rows and columns that you'll need.
+Getting a DataFrame is really helpful because pandas automatically provides type coercion in the DF construction (a text field column that stores numbers -> floats)
 
 ---
 
-# API: Importing Data
+# API: Importing Records
 
-**Update existing records or add new ones on the fly**
+<br />
+## Update existing records
+
+<br />
+
+## Add new records on the fly
+
+<br />
+
+## Hard to overwrite data
+
+## Presenter Notes
 
     !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/ \
@@ -349,17 +382,23 @@ If you're working with a big database, you can speed up the API call by requesti
     response = project.import_records(modified)
     assert response['count'] == len(modified)  # Just to make sure
 
-## Presenter Notes
-
-It's most likely best to download data, tweak it and import.
-
-By default does not overwrite non-imported fields with empty data.
-
 ---
 
-# API: File Exporting
+# API: File Actions
 
-**Works on a per-record basis**
+<br />
+
+## Export (Download)
+
+<br />
+## Import (Upload)
+
+<br />
+## Delete
+
+## Presenter Notes
+
+Download
 
     !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/
@@ -379,11 +418,7 @@ By default does not overwrite non-imported fields with empty data.
         f.write(content)
 
 
----
-
-# API: File Importing
-
-**Works on a per-record basis**
+Importing
 
     !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/
@@ -395,7 +430,6 @@ By default does not overwrite non-imported fields with empty data.
         -d field=file \
         -d file=@localfile.txt
 
-<br />
 
     !python
     local_fname = 'to_upload.pdf'
@@ -404,11 +438,7 @@ By default does not overwrite non-imported fields with empty data.
                                        fname=local_fname, fobj=fobj)
     # Whatever is passed to the fname argument will appear in the REDCap UI
 
----
-
-# API: File Deletion
-
-**Works on a per-record basis**
+Deleting
 
     !bash
     $ curl -X POST https://redcap.vanderbilt.edu/api/
@@ -418,8 +448,6 @@ By default does not overwrite non-imported fields with empty data.
         -d action=delete \
         -d record=1 \
         -d field=file \
-
-<br />
 
     !python
     project.delete_file('1', 'file')
@@ -445,13 +473,10 @@ By default does not overwrite non-imported fields with empty data.
 
 # API: Advanced Field Calculations
 
-<br />
 
 ## Problem: Update Many Records By Applying Formula
 
-**Worst Implmentation**:
-
-Download/Implement/Upload
+<img src="img/bad.png" width="720">
 
 ## Presenter Notes
 
@@ -470,13 +495,12 @@ Download/Implement/Upload
 
 # API: Advanced Field Calculations
 
-<br />
 
 ## Problem: Update Many Records By Applying Formula
 
-**Better Implmentation**:
 
-REDCap Calculated Fields
+<img src="img/better.png" width="720">
+
 
 ## Presenter Notes
 
@@ -493,14 +517,10 @@ What if you have hundreds of records? Some poor soul has to click a button that 
 
 # API: Advanced Field Calculations
 
-<br />
 
 ## Problem: Update Many Records By Applying Formula
 
-
-**Best Implementation**
-
-Use the API
+<img src="img/best.png" width="720">
 
 ## Presenter Notes
 
@@ -553,9 +573,7 @@ Theoretically, your research software that uses the REDCap API is documented, te
 
 <br />
 
-Research often produces intermediary data that needs to be processed, the results of which should be stored in REDCap.
-
-How do we connect intermediate files to our analysis infrastructure?
+## How do we connect *intermediate* data to our analysis infrastructure?
 
 REDCap `file` fields!
 
@@ -594,12 +612,11 @@ Using the data export and file upload methods, we can create these reports autom
 
 ---
 
-# API: A final thought
+# API
 
 <br />
-<br />
 
-## What the API can do for your research is up to you
+<img src="img/clouds.jpg" width="720">
 
 ## Presenter Notes
 
@@ -611,11 +628,11 @@ I've only scratched the surface here. The possibilities of workflows enabled by 
 
 <br />
 
-## Accessing the API is driven by external requests
+## API usage is driven by external requests
 
 Poll? (yuck)
 
-**Can we have a better idea about when to run analyses?**
+**Can we get a better idea about when to run analyses?**
 
 ---
 
@@ -634,6 +651,8 @@ Poll? (yuck)
 *   Register a URL to your Project
 *   ANY Form save --> HTTP POST request to URL.
 
+Picture
+
 ---
 
 # Data Entry Triggers
@@ -645,8 +664,6 @@ Poll? (yuck)
 ---
 
 # Data Entry Triggers
-
-<br />
 
 <img src="img/det-fireworks.png" width="720">
 
@@ -661,7 +678,10 @@ Poll? (yuck)
 
 # Data Entry Triggers: Incoming Payload
 
-<br />
+<img src="img/det-total.png" width="720">
+
+
+## Presenter Notes
 
 **Fields in the incoming payload:**
 
@@ -672,20 +692,25 @@ Poll? (yuck)
 *   `redcap_data_access_group`: What "kind" of user saved it?
 *   `[instrument]_complete`: What is the status of the form?
 
+Fake the incoming payload, blast off **many** analyses.
+
 ---
 
-# Data Entry Triggers: Pitalls
+# Data Entry Triggers: Pitfalls
 
 <br />
 
-## Not every research group...:
+## Not every research group...
 
 *   ...can setup/maintain/secure a webserver.
 *   ...has the resources to write the web application.
 
+## But every lab should have access to this functionality
+
+## Presenter Notes
+
 (Middleware is required to route incoming requests to the correct workflow)
 
-## But every lab should have access to this functionality
 
 ---
 
@@ -693,26 +718,54 @@ Poll? (yuck)
 
 `switchboard`:
 
-*   Parse incoming `POST` requests from REDCap (or whomever).
-*   Execute only the functions whose workflows match the request.
+*   Parses incoming `POST` requests from REDCap (or whomever).
+*   Executes only the functions whose workflows match the request.
 
-**Production** for our lab but **rough around the edges**
+**In Production** for our lab but **rough around the edges**
 
 
 <br />
 <br />
 
-(`github.com/sburns/switchboard`)
-<br />
-want to help?
+(`github.com/sburns/switchboard` want to help?)
+
 ---
 
 # Data Entry Triggers
 
 <br />
 
-Ideally, somewhere at Vanderbilt there would be a central "switchboard" webserver:
+## In a perfect world...
 
-*   Just one webserver to maintain.
+A shared "switchboard" webserver:
+
+*   Just one webserver to maintain & protect.
 *   Shared infrastructure is good.
-*   Increase buy-in among disparate groups.
+*   Decrease "activation energy" for groups to use these features.
+*   Optimize pieces and all groups benefit.
+
+---
+
+# Automating machines easier than humans
+
+<img src="img/api.png" width="720">
+
+---
+
+# Automate the automation!
+
+<img src="img/det-total.png" width="720">
+
+---
+
+# Thank You
+
+<br />
+
+<img src="img/cutting.png" width="200">
+<img src="img/davis.png" width="200">
+<img src="img/rimrodt.png" width="200">
+
+---
+
+# Questions?
