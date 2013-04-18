@@ -27,12 +27,39 @@ I have no affiliation with REDCap other than I submit a lot of bug reports, thou
 
 We study reading disabilities in **children** using behavior and imaging measures.
 
+<br />
 
 ## Very wide databases
 
+---
+
+# At EBRL
+
+We study reading disabilities in **children** using behavior and imaging measures.
+
+<br />
+
 ## Very expensive datasets
 
+
+---
+
+# At EBRL
+
+We study reading disabilities in **children** using behavior and imaging measures.
+
+<br />
+
 ## Novel tasks (in & out of magnet)
+
+---
+
+# At EBRL
+
+We study reading disabilities in **children** using behavior and imaging measures.
+
+<br />
+
 
 ## Many Projects
 
