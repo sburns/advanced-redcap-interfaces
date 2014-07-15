@@ -2,7 +2,7 @@
 
 <br />
 
-## scott.s.burns@vanderbilt.edu
+## scott.s.burns@gmail.com
 
 (Notes & Code Samples in the handouts)
 
@@ -916,7 +916,7 @@ Remove all barriers to running analyses
 <br />
 <br />
 
-## scott.s.burns@vanderbilt.edu
+## scott.s.burns@gmail.com
 ## http://github.com/sburns
 
 This talk can be found at:
